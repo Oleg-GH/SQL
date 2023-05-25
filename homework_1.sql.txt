@@ -1,0 +1,110 @@
+
+1. Создайте таблицу с мобильными телефонами, используя графический интерфейс. Необходимые поля таблицы: 
+product_name (название товара), 
+manufacturer (производитель), 
+product_count (количество), 
+price (цена). 
+Заполните БД произвольными данными.
+
+CREATE SCHEMA `smartphones` ;
+
+CREATE TABLE `smartphones`.`phones` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `product_name` VARCHAR(30) NOT NULL,
+  `manufacturer` VARCHAR(30) NOT NULL,
+  `product_count` INT NULL DEFAULT 0,
+  `price` INT NULL,
+  PRIMARY KEY (`id`));
+
+SELECT * FROM smartphones.phones;
+
+INSERT INTO `smartphones`.`phones` (`id`, `product_name`, `manufacturer`, `product_count`, `price`) VALUES ('1', 'IPhone14', 'Apple', '1', '120000');
+INSERT INTO `smartphones`.`phones` (`id`, `product_name`, `manufacturer`, `product_count`, `price`) VALUES ('2', 'IPhone12', 'Apple', '3', '100000');
+INSERT INTO `smartphones`.`phones` (`id`, `product_name`, `manufacturer`, `product_count`, `price`) VALUES ('3', 'Galaxy9', 'Samsung', '4', '60000');
+INSERT INTO `smartphones`.`phones` (`id`, `product_name`, `manufacturer`, `product_count`, `price`) VALUES ('4', 'Galaxy8', 'Samsung', '5', '45000');
+INSERT INTO `smartphones`.`phones` (`id`, `product_name`, `manufacturer`, `product_count`, `price`) VALUES ('5', 'P40 Pro', 'Huawei', '2', '50000');
+INSERT INTO `smartphones`.`phones` (`id`, `product_name`, `manufacturer`, `product_count`, `price`) VALUES ('6', '3310', 'Nokia', '1', '10000');
+
+Результат:
+
+id	product_name	manufacturer	product_count	price
+1	IPhone14	Apple			1	120000
+2	IPhone12	Apple			3	100000
+3	Galaxy9		Samsung			4	60000
+4	Galaxy8		Samsung			5	45000
+5	P40 Pro		Huawei			2	50000
+6	3310		Nokia			1	10000
+
+
+2. Напишите SELECT-запрос, который выводит название товара, производителя и цену для товаров, количество которых превышает 2 шт.
+
+SELECT product_name, manufacturer, price
+FROM smartphones.phones
+WHERE product_count > 2;
+
+Результат:
+
+product_name	manufacturer	price
+IPhone12	Apple		100000
+Galaxy9		Samsung		60000
+Galaxy8		Samsung		45000
+
+3. Выведите SELECT-запросом весь ассортимент товаров марки Samsung.
+
+SELECT * FROM smartphones.phones
+WHERE manufacturer = 'Samsung';
+
+Результат:
+
+id	product_name	manufacturer	product_count	price
+3	Galaxy9		Samsung			4	60000
+4	Galaxy8		Samsung			5	45000
+
+4.* С помощью SELECT-запроса с оператором LIKE / REGEXP найти:
+
+4.1.* Товары, в которых есть упоминание "IPhone":
+
+SELECT * FROM smartphones.phones
+WHERE product_name LIKE '%IPhone%';
+
+Результат:
+
+id	product_name	manufacturer	product_count	price
+1	IPhone14	Apple			1	120000
+2	IPhone12	Apple			3	100000
+
+4.2.* Товары, в которых есть упоминание "Samsung":
+
+SELECT * FROM smartphones.phones
+WHERE manufacturer LIKE '%Samsung%' OR product_name LIKE '%Samsung%';
+
+Результат:
+
+# id	product_name	manufacturer	product_count	price
+3	Galaxy9		Samsung			4	60000
+4	Galaxy8		Samsung			5	45000
+
+4.3.* Товары, в названии которых содержатся ЦИФРЫ:
+
+SELECT * FROM smartphones.phones
+WHERE product_name REGEXP '[0-9]';
+
+Результат:
+
+id	product_name	manufacturer	product_count	price
+1	IPhone14	Apple			1	120000
+2	IPhone12	Apple			3	100000
+3	Galaxy9		Samsung			4	60000
+4	Galaxy8		Samsung			5	45000
+5	P40 Pro		Huawei			2	50000
+6	3310		Nokia			1	10000
+
+4.4.* Товары, в названии которых есть ЦИФРА 8:
+
+SELECT * FROM smartphones.phones
+WHERE product_name REGEXP '[8]';
+
+Результат:
+
+id	product_name	manufacturer	product_count	price
+4	Galaxy8		Samsung			5	45000
